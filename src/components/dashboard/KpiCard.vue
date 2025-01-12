@@ -1,7 +1,6 @@
 <template>
   <v-card
       class="mx-auto"
-      max-width="368"
       :color="kpi.bgColor"
   >
     <v-card-item :title="kpi.title">
@@ -20,7 +19,7 @@
     <v-card-text class="py-0">
       <v-row align="center" no-gutters>
         <v-col
-            class="text-h2"
+            class="text-h4"
             cols="6"
         >
           {{ kpi.count }}
@@ -29,7 +28,7 @@
         <v-col class="text-right" cols="6">
           <v-icon
               :icon="kpi.icon"
-              size="88"
+              size="66"
           ></v-icon>
         </v-col>
       </v-row>
