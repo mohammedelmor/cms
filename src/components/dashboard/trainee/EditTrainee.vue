@@ -1,36 +1,40 @@
 <script setup>
-import {inject, ref} from 'vue'
+import {inject, reactive, ref} from 'vue'
 
 const swal = inject('$swal')
 
-const emit = defineEmits(['addTrainee'])
+const props = defineProps(
+    {
+      trainee: {
+        type: Object,
+        required: true
+      }
+    })
+const emit = defineEmits(['editTrainee'])
 
 const form = ref(null);
 const isActive = ref(false)
 
-const trainee = ref({
-  name: '',
-  age: undefined
-})
+const trainee = reactive({ ...props.trainee });
 
-async function addNewTrainee() {
-  const response = await fetch('http://localhost:8080/api/v1/trainee', {
+async function editTrainee() {
+  console.log(trainee)
+  const response = await fetch(`http://localhost:8080/api/v1/trainee/${props.trainee.id}`, {
     headers: {
       "Content-Type": "application/json",
     },
-    method: 'POST',
-    body: JSON.stringify(trainee.value)
+    method: 'PUT',
+    body: JSON.stringify({
+      name: trainee.name,
+      age: trainee.age,
+    })
   })
-  const newTrainee = await response.json()
-  trainee.value = {
-    name: '',
-    age: undefined
-  }
+  const updatedTrainee = await response.json()
   isActive.value = false
-  emit('addTrainee')
+  emit('editTrainee')
   swal({
-    title: "New Trainee Added!",
-    text: `${newTrainee.name} added successfully!`,
+    title: `Trainee ${updatedTrainee.name} Updated!`,
+    text: `Updated successfully!`,
     icon: "success"
   })
 }
@@ -38,27 +42,23 @@ async function addNewTrainee() {
 </script>
 
 <template>
-  <div class="pa-4 text-center">
-    <v-btn-group
-        color="green-darken-2"
-        density="compact"
-        divided
-    >
-      <v-btn
-          append-icon="mdi-plus"
-          class="pe-2"
-          variant="flat"
-      >
-        <div class="text-none font-weight-regular">
-          Add New Trainee
-        </div>
+  <div class="text-center text-white">
 
+      <v-btn
+          class="text-white"
+          color="yellow-darken-2"
+          icon="mdi-trash-can"
+          size="small"
+      >
+        <v-icon>
+          mdi-pencil
+        </v-icon>
         <v-dialog v-model="isActive" activator="parent" max-width="500">
           <template v-slot:default="{ isActive }">
             <v-card rounded="lg">
               <v-card-title class="d-flex justify-space-between align-center">
                 <div class="text-h5 text-medium-emphasis ps-2">
-                  Add New Trainee
+                  Update Trainee: {{ trainee.name }}
                 </div>
 
                 <v-btn
@@ -69,10 +69,8 @@ async function addNewTrainee() {
               </v-card-title>
 
               <v-divider class="mb-4"></v-divider>
-              <v-form ref="form" @submit.prevent="addNewTrainee">
+              <v-form ref="form" @submit.prevent="editTrainee">
                 <v-card-text>
-
-
                   <v-text-field
                       v-model="trainee.name"
                       :rules="[v => !!v || 'Name is required', v => v.trim().length !== 0 || 'Name is required']"
@@ -100,9 +98,9 @@ async function addNewTrainee() {
 
                   <v-btn
                       class="text-none"
-                      color="primary"
+                      color="cyan-darken-2"
                       rounded="xl"
-                      text="Add"
+                      text="Update"
                       type="submit"
                       variant="flat"
                   ></v-btn>
@@ -112,7 +110,6 @@ async function addNewTrainee() {
           </template>
         </v-dialog>
       </v-btn>
-    </v-btn-group>
   </div>
 </template>
 
