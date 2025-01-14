@@ -10,6 +10,7 @@ const isActive = ref(false)
 
 const trainee = ref({
   name: '',
+  phoneNumber: '',
   age: undefined
 })
 
@@ -24,6 +25,7 @@ async function addNewTrainee() {
   const newTrainee = await response.json()
   trainee.value = {
     name: '',
+    phoneNumber: '',
     age: undefined
   }
   isActive.value = false
@@ -84,6 +86,11 @@ async function addNewTrainee() {
                       :rules="[v => !!v || 'Age is required', v => v >= 5|| 'Age less than 5?']"
                       label="Trainee Age"
                       type="number"
+                  ></v-text-field>
+
+                  <v-text-field
+                      v-model="trainee.phoneNumber"
+                      label="Trainee Phone Number"
                   ></v-text-field>
 
                 </v-card-text>

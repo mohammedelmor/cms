@@ -26,6 +26,7 @@ async function editTrainee() {
     method: 'PUT',
     body: JSON.stringify({
       name: trainee.name,
+      phoneNumber: trainee.phoneNumber,
       age: trainee.age,
     })
   })
@@ -82,6 +83,11 @@ async function editTrainee() {
                       :rules="[v => !!v || 'Age is required', v => v >= 5|| 'Age less than 5?']"
                       label="Trainee Age"
                       type="number"
+                  ></v-text-field>
+
+                  <v-text-field
+                      v-model="trainee.phoneNumber"
+                      label="Trainee Phone Number"
                   ></v-text-field>
 
                 </v-card-text>

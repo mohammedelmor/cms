@@ -8,7 +8,6 @@ import DeleteTrainee from "./DeleteTrainee.vue";
 
 async function getTrainees({page, itemsPerPage}) {
   const offsetPage = page - 1
-  console.log(`pageNumber: ${offsetPage} itemsPerPage: ${itemsPerPage}`)
   loading.value = true
   let response = await fetch(`http://localhost:8080/api/v1/trainee?pageNumber=${offsetPage}&pageSize=${itemsPerPage}`)
   response = await response.json()
@@ -28,6 +27,7 @@ const headers = reactive([
   },
   {title: 'Name', key: 'name', align: 'start', sortable: false,},
   {title: 'Age', key: 'age', align: 'start', sortable: false,},
+  {title: 'Phone Number', key: 'phoneNumber', align: 'start', sortable: false,},
   {title: 'Action', key: 'action', align: 'start', sortable: false,},
 ]);
 
