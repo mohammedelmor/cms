@@ -29,6 +29,8 @@
           </v-list-item>
           <v-list-item prepend-icon="mdi-account" title="Trainees" to="/trainee" value="trainees">
           </v-list-item>
+          <v-list-item prepend-icon="mdi-account" title="Body Types" to="/bodyTypes" value="bodyTypes">
+          </v-list-item>
           <v-list-item prepend-icon="mdi-account-group-outline" title="Users" value="users">
           </v-list-item>
         </v-list>
