@@ -3,6 +3,7 @@
 import {reactive, ref} from "vue";
 
 import AddBodyType from "./AddBodyType.vue";
+import DeleteBodyType from "./DeleteBodyType.vue";
 
 async function getBodyTypes({page, itemsPerPage}) {
   const offsetPage = page - 1
@@ -10,7 +11,7 @@ async function getBodyTypes({page, itemsPerPage}) {
   let response = await fetch(`http://localhost:8080/api/v1/bodyType?pageNumber=${offsetPage}&pageSize=${itemsPerPage}`)
   response = await response.json()
   serverItems.value = response.content
-  totalItems.value = response.totalElements
+  totalItems.value = response.page.totalElements
   loading.value = false
 }
 
@@ -53,6 +54,12 @@ const pageSize = ref(10);
     <template v-slot:[`item.image`]="{ item }">
       <div class="d-flex ga-2">
         <v-avatar :image="item.fullPath" size="100"></v-avatar>
+      </div>
+    </template>
+    <template v-slot:[`item.action`]="{ item }">
+      <div class="d-flex ga-2">
+        <DeleteBodyType :body-table="item"
+                        @delete-body-table="() => getBodyTypes({page: pageNumber, itemsPerPage:pageSize})"/>
       </div>
     </template>
   </v-data-table-server>

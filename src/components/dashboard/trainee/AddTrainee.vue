@@ -14,6 +14,23 @@ const trainee = ref({
   age: undefined
 })
 
+
+// Snackbar state
+const snackbar = ref({
+  active: false,
+  message: '',
+  color: 'success',
+});
+
+// Function to show snackbar
+function showSnackbar(message, color = 'success') {
+  snackbar.value = {
+    active: true,
+    message,
+    color,
+  };
+}
+
 async function addNewTrainee() {
   const response = await fetch('http://localhost:8080/api/v1/trainee', {
     headers: {
@@ -22,6 +39,10 @@ async function addNewTrainee() {
     method: 'POST',
     body: JSON.stringify(trainee.value)
   })
+  if (response.status !== 201) {
+    showSnackbar("Failed to add this trainee", "error");
+    return
+  }
   const newTrainee = await response.json()
   trainee.value = {
     name: '',

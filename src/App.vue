@@ -10,7 +10,7 @@
       >
         <v-list-item
             prepend-avatar="https://randomuser.me/api/portraits/men/85.jpg"
-            title="John Leider"
+            title="Coach"
             nav
         >
           <template v-slot:append>
@@ -29,7 +29,10 @@
           </v-list-item>
           <v-list-item prepend-icon="mdi-account" title="Trainees" to="/trainee" value="trainees">
           </v-list-item>
-          <v-list-item prepend-icon="mdi-account" title="Body Types" to="/bodyTypes" value="bodyTypes">
+          <v-list-item prepend-icon="mdi-weight-lifter" title="Body Types" to="/bodyTypes" value="bodyTypes">
+          </v-list-item>
+          <v-list-item prepend-icon="mdi-gymnastics" title="Muscle Balances" to="/muscleBalances"
+                       value="muscleBalances">
           </v-list-item>
           <v-list-item prepend-icon="mdi-account-group-outline" title="Users" value="users">
           </v-list-item>

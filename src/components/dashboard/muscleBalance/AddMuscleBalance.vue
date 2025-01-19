@@ -1,12 +1,12 @@
 <script setup>
 import {ref} from 'vue';
 
-const emit = defineEmits(['addBodyType']);
+const emit = defineEmits(['addMuscleBalance']);
 
 const form = ref(null);
 const isActive = ref(false);
 
-const bodyType = ref({
+const muscleBalance = ref({
   name: '',
   image: null
 });
@@ -27,43 +27,43 @@ function showSnackbar(message, color = 'success') {
   };
 }
 
-async function addNewBodyType() {
+async function addNewMuscleBalance() {
   if (
-      bodyType.value === null ||
-      bodyType.value.name === null ||
-      bodyType.value.name === undefined ||
-      bodyType.value.image === null ||
-      bodyType.value.image === undefined
+      muscleBalance.value === null ||
+      muscleBalance.value.name === null ||
+      muscleBalance.value.name === undefined ||
+      muscleBalance.value.image === null ||
+      muscleBalance.value.image === undefined
   ) {
     showSnackbar('You must set both body type name and image', 'error');
     return;
   }
 
   const formData = new FormData();
-  formData.append('name', bodyType.value.name);
-  formData.append('image', bodyType.value.image);
+  formData.append('name', muscleBalance.value.name);
+  formData.append('image', muscleBalance.value.image);
   for (let [key, value] of formData.entries()) {
     console.log(`${key}: ${value}`);
   }
   try {
-    const response = await fetch('http://localhost:8080/api/v1/bodyType', {
+    const response = await fetch('http://localhost:8080/api/v1/muscleBalance', {
       method: 'POST',
       body: formData,
     });
 
     if (response.status !== 201) {
-      showSnackbar('Failed to add body type', "error");
+      showSnackbar('Failed to add muscle balance', "error");
       return
     }
 
-    const newBodyType = await response.json();
-    bodyType.value = {
+    const newMuscleBalance = await response.json();
+    muscleBalance.value = {
       name: '',
       image: null,
     };
     isActive.value = false;
-    emit('addBodyType');
-    showSnackbar(`${newBodyType.name} added successfully!`, 'success');
+    emit('addMuscleBalance');
+    showSnackbar(`${newMuscleBalance.name} added successfully!`, 'success');
   } catch (error) {
     showSnackbar('An error occurred while adding the body type', 'error');
     console.error(error);
@@ -76,7 +76,7 @@ async function addNewBodyType() {
     <v-btn-group color="green-darken-2" density="compact" divided>
       <v-btn append-icon="mdi-plus" class="pe-2" variant="flat">
         <div class="text-none font-weight-regular">
-          Add New BodyType
+          Add New MuscleBalance
         </div>
 
         <v-dialog v-model="isActive" activator="parent" max-width="500">
@@ -95,20 +95,20 @@ async function addNewBodyType() {
               </v-card-title>
 
               <v-divider class="mb-4"></v-divider>
-              <v-form ref="form" @submit.prevent="addNewBodyType">
+              <v-form ref="form" @submit.prevent="addNewMuscleBalance">
                 <v-card-text>
                   <v-text-field
-                      v-model="bodyType.name"
+                      v-model="muscleBalance.name"
                       :rules="[v => !!v || 'Name is required', v => v.trim().length !== 0 || 'Name is required']"
-                      label="BodyType Name"
+                      label="MuscleBalance Name"
                   ></v-text-field>
 
                   <v-file-upload
+                      v-model="muscleBalance.image"
+                      accept="image/*"
                       clearable
                       density="compact"
                       variant="compact"
-                      v-model="bodyType.image"
-                      accept="image/*"
                   ></v-file-upload>
                 </v-card-text>
 
