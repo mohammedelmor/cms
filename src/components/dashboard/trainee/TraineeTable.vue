@@ -5,6 +5,7 @@ import {reactive, ref} from "vue";
 import AddTrainee from "./AddTrainee.vue";
 import EditTrainee from "./EditTrainee.vue";
 import DeleteTrainee from "./DeleteTrainee.vue";
+import FitnessTestDialogIcon from "../fitnessTest/FitnessTestDialogIcon.vue";
 
 async function getTrainees({page, itemsPerPage}) {
   const offsetPage = page - 1
@@ -15,8 +16,6 @@ async function getTrainees({page, itemsPerPage}) {
   totalItems.value = response.page.totalElements
   loading.value = false
 }
-
-
 
 const headers = reactive([
   {
@@ -58,6 +57,7 @@ const pageSize = ref(10);
       <div class="d-flex ga-2">
         <EditTrainee :trainee="item" @edit-trainee="() => getTrainees({page: pageNumber, itemsPerPage:pageSize})"/>
         <DeleteTrainee :trainee="item" @delete-trainee="() => getTrainees({page: pageNumber, itemsPerPage:pageSize})"/>
+        <FitnessTestDialogIcon :trainee="item" />
       </div>
     </template>
   </v-data-table-server>
